@@ -2000,6 +2000,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+// importing navbar from components folder
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'app',
@@ -2184,6 +2185,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'index',
   components: {},
@@ -2205,6 +2210,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    // login submit method
     onSubmit: function onSubmit(evt) {
       evt.preventDefault();
       var app = this;
@@ -2328,6 +2334,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2343,6 +2350,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   computed: {
+    // ensuring validation is correct on the code field
     codeValid: function codeValid() {
       return this.form.code.length <= 5 && this.form.code.length > 0;
     }
@@ -2356,6 +2364,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    // when the submit button is pressed the following actions are carried out
     onSubmit: function onSubmit(evt) {
       evt.preventDefault();
       var app = this;
@@ -2480,8 +2489,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  // data passed into component
   data: function data() {
     return {
       course: {},
@@ -2594,6 +2603,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2622,38 +2635,45 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
+    // delete course method
     deleteCourse: function deleteCourse(id) {
       var app = this;
-      var token = localStorage.getItem('token');
+      var token = localStorage.getItem('token'); // deleting course by specified ID
+
       axios.get('/api/courses/' + id, {
         headers: {
           Authorization: "Bearer " + token
         }
       }).then(function (response) {
-        var enrolmentArray = response.data.data.enrolments;
+        var enrolmentArray = response.data.data.enrolments; // modal to prompt user of their decision
 
         if (confirm("Are you sure you want to delete this course?")) {
+          // checking if course is assigned to enrolment
           if (enrolmentArray.length !== 0) {
             for (var i = 0; i < enrolmentArray.length; i++) {
-              var enrolment = enrolmentArray[i];
+              var enrolment = enrolmentArray[i]; // deletes enrolment before course is deleted to avoid unprocessable entity error
+
               axios["delete"]("api/enrolments/" + enrolment.id, {
                 headers: {
                   Authorization: "Bearer " + token
                 }
               });
-            }
+            } // proceeds to delete course once it is now unassigned to an enrolment
+
 
             axios["delete"]("api/courses/" + id, {
               headers: {
                 Authorization: "Bearer " + token
               }
             }).then(function (response) {
-              app.$delete(app.items);
+              app.$delete(app.items); // filters data after deletion has occurred
+
               app.items = app.items.filter(function (data) {
                 return data.id !== id;
               });
             });
           } else {
+            // if no enrolment is assigned to course the course is deleted anyway once the user clicks confirm 
             app.deleteCourse(id);
             app.items = app.items.filter(function (data) {
               return data.id !== id;
@@ -2718,15 +2738,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  // data passed into component
   data: function data() {
     return {
       course: []
     };
   },
   created: function created(id) {
+    // retrieving token to ensure logged in
     var app = this;
-    var token = localStorage.getItem('token');
+    var token = localStorage.getItem('token'); // retrieving courses from API
+
     axios.get("/api/courses/".concat(app.$route.params.id), {
       headers: {
         Authorization: "Bearer " + token
@@ -2739,11 +2765,13 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
+    // delete course method
     deleteCourse: function deleteCourse(id) {
       var app = this;
-      var token = localStorage.getItem('token');
+      var token = localStorage.getItem('token'); // modal displaying the following question to prompt user
 
       if (confirm("Are you sure you want to delete this course?")) {
+        // deleting the specified course by ID
         axios["delete"]('/api/courses/' + id, {
           headers: {
             Authorization: "Bearer " + token
@@ -2875,7 +2903,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  // data passed into component
   data: function data() {
     return {
       form: {
@@ -2891,6 +2922,7 @@ __webpack_require__.r(__webpack_exports__);
       lecturers: [],
       enrolment: [],
       enrolments: [],
+      // options to populate status dropdown
       options: [{
         text: 'Interested',
         value: 'interested'
@@ -2915,7 +2947,8 @@ __webpack_require__.r(__webpack_exports__);
     if (localStorage.getItem('token')) {
       this.loggedIn = true;
       var app = this;
-      var token = localStorage.getItem('token');
+      var token = localStorage.getItem('token'); // retrieving courses from API
+
       axios.get('/api/courses', {
         headers: {
           Authorization: "Bearer " + token
@@ -2925,7 +2958,8 @@ __webpack_require__.r(__webpack_exports__);
         app.courses = response.data.data;
       })["catch"](function (error) {
         console.log(error);
-      });
+      }); // retrieving lecturers from API
+
       axios.get('/api/lecturers', {
         headers: {
           Authorization: "Bearer " + token
@@ -2935,7 +2969,8 @@ __webpack_require__.r(__webpack_exports__);
         app.lecturers = response.data.data;
       })["catch"](function (error) {
         console.log(error);
-      });
+      }); // retrieving enrolments from API
+
       axios.get("/api/enrolments", {
         headers: {
           Authorization: "Bearer " + token
@@ -2954,7 +2989,8 @@ __webpack_require__.r(__webpack_exports__);
     onSubmit: function onSubmit(evt) {
       evt.preventDefault();
       var app = this;
-      var token = localStorage.getItem('token');
+      var token = localStorage.getItem('token'); // posting information to API to be displayed when API is called again
+
       axios.post('/api/enrolments', {
         date: app.form.date,
         time: app.form.time,
@@ -3097,7 +3133,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  // data passed into component
   data: function data() {
     return {
       enrolment: [],
@@ -3106,6 +3144,7 @@ __webpack_require__.r(__webpack_exports__);
       lecturers: '',
       show: true,
       loggedIn: false,
+      // options used for populating status dropdown
       options: [{
         text: 'Interested',
         value: 'interested'
@@ -3130,7 +3169,8 @@ __webpack_require__.r(__webpack_exports__);
     }
 
     var app = this;
-    var token = localStorage.getItem('token');
+    var token = localStorage.getItem('token'); // retrieving specific enrolment by ID
+
     axios.get("/api/enrolments/".concat(app.$route.params.id), {
       headers: {
         Authorization: "Bearer " + token
@@ -3139,7 +3179,8 @@ __webpack_require__.r(__webpack_exports__);
       app.enrolment = response.data.data;
     })["catch"](function (error) {
       console.log(error);
-    });
+    }); // retrieving list of courses for course dropdown
+
     axios.get('/api/courses', {
       headers: {
         Authorization: "Bearer " + token
@@ -3149,7 +3190,8 @@ __webpack_require__.r(__webpack_exports__);
       app.courses = response.data.data;
     })["catch"](function (error) {
       console.log(error);
-    });
+    }); // retrieving list of lecturers for lecturer dropdown
+
     axios.get('/api/lecturers', {
       headers: {
         Authorization: "Bearer " + token
@@ -3159,7 +3201,8 @@ __webpack_require__.r(__webpack_exports__);
       app.lecturers = response.data.data;
     })["catch"](function (error) {
       console.log(error);
-    });
+    }); // retrieving info from enrolment to be edited
+
     axios.get("/api/enrolments/".concat(app.$route.params.id), {
       headers: {
         Authorization: "Bearer " + token
@@ -3174,7 +3217,8 @@ __webpack_require__.r(__webpack_exports__);
     onSubmit: function onSubmit(evt) {
       evt.preventDefault();
       var app = this;
-      var token = localStorage.getItem('token');
+      var token = localStorage.getItem('token'); // posting the new information to the enrolments API
+
       axios.put("/api/enrolments/".concat(app.$route.params.id), {
         date: app.enrolment.date,
         time: app.enrolment.time,
@@ -3239,7 +3283,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  // data passed into component
   data: function data() {
     return {
       items: []
@@ -3247,7 +3297,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     var app = this;
-    var token = localStorage.getItem('token');
+    var token = localStorage.getItem('token'); // retrieving list of enrolments
+
     axios.get('/api/enrolments', {
       headers: {
         Authorization: "Bearer " + token
@@ -3260,17 +3311,20 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
+    // delete enrolment method
     deleteEnrolment: function deleteEnrolment(id) {
       var app = this;
-      var token = localStorage.getItem('token');
+      var token = localStorage.getItem('token'); // prompt for user to ensure decision is correct
 
       if (confirm("Are you sure you want to delete this enrolment?")) {
+        // deleting enrolments by ID
         axios["delete"]('/api/enrolments/' + id, {
           headers: {
             Authorization: "Bearer " + token
           }
         }).then(function (response) {
-          console.log(response);
+          console.log(response); // filter items in enrolments list after deletion has occurred
+
           app.items = app.items.filter(function (data) {
             return data.id !== id;
           });
@@ -3341,7 +3395,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  // data passed into component
   data: function data() {
     return {
       enrolment: []
@@ -3349,7 +3410,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created(id) {
     var app = this;
-    var token = localStorage.getItem('token');
+    var token = localStorage.getItem('token'); // retrieving specific enrolment by ID
+
     axios.get("/api/enrolments/".concat(app.$route.params.id), {
       headers: {
         Authorization: "Bearer " + token
@@ -3359,7 +3421,8 @@ __webpack_require__.r(__webpack_exports__);
       app.enrolment = response.data.data;
     })["catch"](function (error) {
       console.log(error);
-    });
+    }); // retrieving specific course by ID
+
     axios.get("/api/courses/".concat(app.$route.params.id), {
       headers: {
         Authorization: "Bearer " + token
@@ -3369,7 +3432,8 @@ __webpack_require__.r(__webpack_exports__);
       app.course = response.data.data;
     })["catch"](function (error) {
       console.log(error);
-    });
+    }); // retrieving specific lecturer by ID
+
     axios.get("/api/lecturers/".concat(app.$route.params.id), {
       headers: {
         Authorization: "Bearer " + token
@@ -3382,17 +3446,20 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
+    // delete enrolment method
     deleteEnrolment: function deleteEnrolment(id) {
       var app = this;
-      var token = localStorage.getItem('token');
+      var token = localStorage.getItem('token'); // prompt to remind user of the item they are about to delete
 
       if (confirm("Are you sure you want to delete this enrolment?")) {
+        // deletion of specific enrolment
         axios["delete"]('/api/enrolments/' + id, {
           headers: {
             Authorization: "Bearer " + token
           }
         }).then(function (response) {
-          console.log(response);
+          console.log(response); // filtering items table after deletion has occurred
+
           app.items = app.items.filter(function (data) {
             return data.id !== id;
           });
@@ -3501,7 +3568,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  // data passed into component
   data: function data() {
     return {
       form: {
@@ -3531,7 +3602,8 @@ __webpack_require__.r(__webpack_exports__);
     onSubmit: function onSubmit(evt) {
       evt.preventDefault();
       var app = this;
-      var token = localStorage.getItem('token');
+      var token = localStorage.getItem('token'); // posting form information into lecturers API
+
       axios.post('/api/lecturers', {
         name: app.form.name,
         address: app.form.address,
@@ -3633,7 +3705,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  // data passed into component
   data: function data() {
     return {
       lecturer: {
@@ -3655,7 +3730,8 @@ __webpack_require__.r(__webpack_exports__);
     }
 
     var app = this;
-    var token = localStorage.getItem('token');
+    var token = localStorage.getItem('token'); // retrieving specific lecturer by ID to be edited
+
     axios.get("/api/lecturers/".concat(app.$route.params.id), {
       headers: {
         Authorization: "Bearer " + token
@@ -3670,7 +3746,8 @@ __webpack_require__.r(__webpack_exports__);
     onSubmit: function onSubmit(evt) {
       evt.preventDefault();
       var app = this;
-      var token = localStorage.getItem('token');
+      var token = localStorage.getItem('token'); // posting edited information to API
+
       axios.put("/api/lecturers/".concat(app.$route.params.id), {
         name: app.lecturer.name,
         phone: app.lecturer.phone,
@@ -3733,7 +3810,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  // data passed into component
   data: function data() {
     return {
       items: []
@@ -3741,7 +3824,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     var app = this;
-    var token = localStorage.getItem('token');
+    var token = localStorage.getItem('token'); // retrieving all lecturers
+
     axios.get('/api/lecturers', {
       headers: {
         Authorization: "Bearer " + token
@@ -3754,26 +3838,31 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
+    // delete lecturer method
     deleteLecturer: function deleteLecturer(id) {
       var app = this;
-      var token = localStorage.getItem('token');
+      var token = localStorage.getItem('token'); // retrieving lecturer by ID
+
       axios.get('/api/lecturers/' + id, {
         headers: {
           Authorization: "Bearer " + token
         }
       }).then(function (response) {
-        var enrolmentArray = response.data.data.enrolments;
+        var enrolmentArray = response.data.data.enrolments; // prompt to remind user of the deletion about to occur
 
         if (confirm("Are you sure you want to delete this lecturer?")) {
+          // checking if lecturer is assigned to an enrolment
           if (enrolmentArray.length !== 0) {
             for (var i = 0; i < enrolmentArray.length; i++) {
-              var enrolment = enrolmentArray[i];
+              var enrolment = enrolmentArray[i]; // deleting enrolments if lecturer is assigned to enrolment to avoid unprocessable entity error
+
               axios["delete"]("api/enrolments/" + enrolment.id, {
                 headers: {
                   Authorization: "Bearer " + token
                 }
               });
-            }
+            } // deleting lecturer once the enrolment has been deleted
+
 
             axios["delete"]("api/lecturers/" + id, {
               headers: {
@@ -3786,7 +3875,9 @@ __webpack_require__.r(__webpack_exports__);
               });
             });
           } else {
-            app.deleteLecturer(id);
+            // if not assigned to an enrolment the lecturer is delete anyway
+            app.deleteLecturer(id); // items in the list are filtered to update the list of the deletion
+
             app.items = app.items.filter(function (data) {
               return data.id !== id;
             });
@@ -3843,7 +3934,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  // data passed into component
   data: function data() {
     return {
       lecturer: []
@@ -3851,7 +3946,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created(id) {
     var app = this;
-    var token = localStorage.getItem('token');
+    var token = localStorage.getItem('token'); // retrieving lecturer by ID to be displayed as a singular item
+
     axios.get("/api/lecturers/".concat(app.$route.params.id), {
       headers: {
         Authorization: "Bearer " + token
@@ -3864,11 +3960,13 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
+    // delete lecturer method
     deleteLecturer: function deleteLecturer(id) {
       var app = this;
-      var token = localStorage.getItem('token');
+      var token = localStorage.getItem('token'); // prompt to remind user of the deletion that will occur if confirmed
 
       if (confirm("Are you sure you want to delete this enrolment?")) {
+        // deleting lecturer by ID
         axios["delete"]('/api/lecturers/' + id, {
           headers: {
             Authorization: "Bearer " + token
@@ -81467,14 +81565,14 @@ var render = function() {
                                   },
                                   [
                                     _vm._v(
-                                      "\n            " +
+                                      "\n              " +
                                         _vm._s(option.text) +
-                                        "\n          "
+                                        "\n            "
                                     )
                                   ]
                                 )
                               }),
-                              _vm._v("\n\n          >")
+                              _vm._v("\n\n            >")
                             ],
                             2
                           )
@@ -81514,9 +81612,9 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "\n          " +
+                                    "\n            " +
                                       _vm._s(course.title) +
-                                      "\n        "
+                                      "\n          "
                                   )
                                 ]
                               )
@@ -81556,9 +81654,9 @@ var render = function() {
                                 { domProps: { value: lecturer.id } },
                                 [
                                   _vm._v(
-                                    "\n          " +
+                                    "\n            " +
                                       _vm._s(lecturer.name) +
-                                      "\n        "
+                                      "\n          "
                                   )
                                 ]
                               )
@@ -81872,7 +81970,7 @@ var render = function() {
         [
           _c(
             "b-card",
-            { attrs: { name: "Add Lecturer", tag: "article" } },
+            { attrs: { title: "Add Lecturer", tag: "article" } },
             [
               _c(
                 "b-form",
@@ -97770,14 +97868,17 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+ // course routes
 
 
 
 
+ // lecturer routes
 
 
 
 
+ // enrolment routes
 
 
 

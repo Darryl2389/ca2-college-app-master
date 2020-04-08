@@ -71,11 +71,8 @@ export default {
       })
         .then(function(response) {
         const enrolmentArray = response.data.data.enrolments
-
-
         // prompt to remind user of the deletion about to occur
         if(confirm("Are you sure you want to delete this lecturer?")){
-
         // checking if lecturer is assigned to an enrolment
         if(enrolmentArray.length!==0) {
           for (var i = 0; i < enrolmentArray.length; i++) {

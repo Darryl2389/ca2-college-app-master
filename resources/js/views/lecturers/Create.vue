@@ -1,7 +1,7 @@
 <template>
 <b-row align-h="center">
   <b-col cols='8'>
-    <b-card name="Add Lecturer" tag="article">
+    <b-card title="Add Lecturer" tag="article">
       <!-- start of form -->
       <b-form @submit="onSubmit">
         <b-form-group
