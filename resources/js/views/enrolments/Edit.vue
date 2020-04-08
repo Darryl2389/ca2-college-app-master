@@ -8,6 +8,7 @@
         tag="article"
       >
 
+<!-- form starts here -->
         <b-form @submit="onSubmit">
           <b-form-group
             id="input-group-1"
@@ -111,6 +112,7 @@
 
 <script>
   export default {
+    // data passed into component
     data() {
       return {
         enrolment:[],
@@ -119,6 +121,7 @@
         lecturers:'',
         show: true,
         loggedIn: false,
+        // options used for populating status dropdown
         options: [
           { text: 'Interested', value: 'interested' },
           { text: 'Assigned', value: 'assigned' },
@@ -139,6 +142,7 @@
 
       let app = this;
       let token = localStorage.getItem('token');
+      // retrieving specific enrolment by ID
       axios.get(`/api/enrolments/${app.$route.params.id}`, {
         headers: { Authorization: "Bearer " + token }
       })
@@ -149,6 +153,7 @@
         console.log(error);
       });
 
+      // retrieving list of courses for course dropdown
       axios.get('/api/courses', {
         headers: { Authorization: "Bearer " + token}
       })
@@ -159,7 +164,7 @@
       .catch(function (error) {
          console.log(error);
       });
-
+      // retrieving list of lecturers for lecturer dropdown
       axios.get('/api/lecturers', {
         headers: { Authorization: "Bearer " + token}
       })
@@ -171,6 +176,7 @@
          console.log(error);
       });
 
+      // retrieving info from enrolment to be edited
       axios.get(`/api/enrolments/${app.$route.params.id}`, {
         headers: { Authorization: "Bearer " + token }
       })
@@ -187,6 +193,7 @@
 
         let app = this;
         let token = localStorage.getItem('token');
+        // posting the new information to the enrolments API
         axios.put(`/api/enrolments/${app.$route.params.id}`, {
             date: app.enrolment.date,
             time: app.enrolment.time,

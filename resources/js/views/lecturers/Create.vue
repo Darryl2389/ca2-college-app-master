@@ -2,6 +2,7 @@
 <b-row align-h="center">
   <b-col cols='8'>
     <b-card name="Add Lecturer" tag="article">
+      <!-- start of form -->
       <b-form @submit="onSubmit">
         <b-form-group
         id="input-group-1"
@@ -35,6 +36,7 @@
 
       </b-form-input>
 
+      <!-- validation reminders to remind user if field is filled out correctly or incorrectly -->
       <b-form-invalid-feedback :state="phoneValid">
         The phone number may not be greater than 10 characters.
       </b-form-invalid-feedback>
@@ -80,12 +82,14 @@
 
         <b-button type="submit" variant="primary">Submit</b-button>
       </b-form>
+      <!-- end of form -->
     </b-card>
   </b-col>
 </b-row>
 </template>
 <script>
 export default{
+  // data passed into component
   data(){
     return{
       form: {
@@ -119,6 +123,7 @@ export default{
       let app = this;
       let token = localStorage.getItem('token');
 
+      // posting form information into lecturers API
       axios.post('/api/lecturers', {
         name: app.form.name,
         address: app.form.address,

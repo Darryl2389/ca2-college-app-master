@@ -2,6 +2,7 @@
 <b-row align-h="center">
   <b-col cols="8">
     <b-card title="Add Enrolment" tag="article">
+      <!-- form start -->
       <b-form @submit="onSubmit">
         <b-form-group
         id="input-group-1"
@@ -97,12 +98,14 @@
 
         <b-button type="submit" variant="primary">Submit</b-button>
       </b-form>
+      <!-- form end -->
     </b-card>
   </b-col>
 </b-row>
 </template>
 <script>
 export default{
+  // data passed into component
   data(){
     return{
       form: {
@@ -118,6 +121,7 @@ export default{
       lecturers: [],
       enrolment:[],
       enrolments:[],
+      // options to populate status dropdown
       options: [
         { text: 'Interested', value: 'interested' },
         { text: 'Assigned', value: 'assigned' },
@@ -127,6 +131,7 @@ export default{
     }
   },
   computed: {
+
     codeValid(){
       return this.form.code.length <= 5 && this.form.code.length > 0
   }
@@ -137,6 +142,7 @@ export default{
 
       let app = this;
       let token = localStorage.getItem('token');
+      // retrieving courses from API
       axios.get('/api/courses', {
         headers: { Authorization: "Bearer " + token}
       })
@@ -148,6 +154,7 @@ export default{
          console.log(error);
       });
 
+      // retrieving lecturers from API
       axios.get('/api/lecturers', {
         headers: { Authorization: "Bearer " + token}
       })
@@ -159,6 +166,7 @@ export default{
          console.log(error);
       })
 
+      // retrieving enrolments from API
       axios.get(`/api/enrolments`, {
         headers: { Authorization: "Bearer " + token }
       })
@@ -182,6 +190,7 @@ export default{
       let app = this;
       let token = localStorage.getItem('token');
 
+      // posting information to API to be displayed when API is called again
       axios.post('/api/enrolments', {
         date: app.form.date,
         time: app.form.time,

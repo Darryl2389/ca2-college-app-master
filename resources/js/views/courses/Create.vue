@@ -8,7 +8,7 @@
         label= "Title"
         label-for= "input-1"
         >
-
+<!-- form start -->
         <b-form-input
         id="input-1"
         type="text"
@@ -71,25 +71,26 @@
 
   >
   </b-form-input>
-</b-form-group>
-<b-form-group
-id="input-group-5"
-label= "Level"
-label-for= "input-5"
->
+    </b-form-group>
+    <b-form-group
+    id="input-group-5"
+    label= "Level"
+    label-for= "input-5"
+    >
 
-<b-form-spinbutton
-id="input-5"
-type="number"
-required
-max="10"
-placeholder="Enter Level"
-v-model="form.level"
->
-</b-form-spinbutton>
-</b-form-group>
+    <b-form-spinbutton
+    id="input-5"
+    type="number"
+    required
+    max="10"
+    placeholder="Enter Level"
+    v-model="form.level"
+    >
+    </b-form-spinbutton>
+    </b-form-group>
         <b-button type="submit" variant="primary">Submit</b-button>
       </b-form>
+<!-- form end -->
     </b-card>
   </b-col>
 </b-row>
@@ -110,6 +111,7 @@ export default{
     }
   },
   computed: {
+    // ensuring validation is correct on the code field
     codeValid(){
       return this.form.code.length <= 5 && this.form.code.length > 0
     }
@@ -124,6 +126,7 @@ export default{
     }
   },
   methods: {
+    // when the submit button is pressed the following actions are carried out
     onSubmit(evt){
       evt.preventDefault()
 

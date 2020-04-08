@@ -3,16 +3,19 @@ import Router from 'vue-router'
 import Index from './views/Index'
 import Example from './views/Example'
 
+// course routes
 import CoursesIndex from './views/courses/Index'
 import CoursesEdit from './views/courses/Edit'
 import CoursesCreate from './views/courses/Create'
 import CoursesShow from './views/courses/Show'
 
+// lecturer routes
 import LecturersIndex from './views/lecturers/Index'
 import LecturersCreate from './views/lecturers/Create'
 import LecturersEdit from './views/lecturers/Edit'
 import LecturersShow from './views/lecturers/Show'
 
+// enrolment routes
 import EnrolmentsIndex from './views/enrolments/Index'
 import EnrolmentsCreate from './views/enrolments/Create'
 import EnrolmentsEdit from './views/enrolments/Edit'

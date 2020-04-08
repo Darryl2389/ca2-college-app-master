@@ -5,6 +5,7 @@
 </b-container>
 </template>
 <script>
+// importing navbar from components folder
 import myNavbar from './../components/myNavbar.vue'
 
 

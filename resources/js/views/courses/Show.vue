@@ -27,12 +27,15 @@
         </b-card-text>
 
           <div class="float-right">
+            <!-- back button -->
             <router-link :to="`/courses/`">
             <b-button  variant="success">&#8592;</b-button>
           </router-link>
+          <!-- edit button -->
           <router-link :to="`/courses/edit/${course.id}`">
           <b-button variant="primary">&#9998</b-button>
         </router-link>
+        <!-- delete button -->
         <b-button type="delete" variant="danger" @click="deleteCourse(course.id)" >&#10005</b-button>
       </div>
       </b-card>
@@ -40,6 +43,7 @@
 </template>
 <script>
 export default {
+  // data passed into component
   data() {
     return {
       course: [],
@@ -47,8 +51,10 @@ export default {
   }
 },
   created(id){
+    // retrieving token to ensure logged in
     let app = this;
     let token = localStorage.getItem('token');
+    // retrieving courses from API
     axios.get(`/api/courses/${app.$route.params.id}`, {
       headers: { Authorization: "Bearer " + token}
     })
@@ -61,12 +67,15 @@ export default {
     })
   },
   methods: {
+    // delete course method
     deleteCourse(id){
       let app = this;
       let token = localStorage.getItem('token');
 
+      // modal displaying the following question to prompt user
       if(confirm("Are you sure you want to delete this course?")){
 
+        // deleting the specified course by ID
       axios.delete('/api/courses/' + id, {
         headers: { Authorization: "Bearer " + token}
       })

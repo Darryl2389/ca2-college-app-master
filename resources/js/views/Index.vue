@@ -5,6 +5,7 @@
       <div>
   <div>
     <b-card-group deck>
+      <!-- courses card -->
       <b-card
         img-src="https://lh3.googleusercontent.com/proxy/eO-WKCX1vyLCL8WDlvy4gqzKFVYV7Fwb4yF59ZvEqSZnLam4F2eWMro8UP8Df-3gDK50GugGpgK1hFXHTebpm0w6Zc4taTXjEuYmjQq93dgJIvUafdPPof2XUU5m3pQn7L6Nbrr-PzA6qhSD_djS1d1ydYhk0NPvT29oyZdO4N0lOhp-w6zz3DQ55pOYGfml"
         img-top
@@ -19,6 +20,7 @@
         <b-button to="/courses" variant="primary">List of courses</b-button>
       </b-card>
 
+      <!-- lecturers card -->
       <b-card
         img-src="https://www.timeshighereducation.com/sites/default/files/styles/the_breaking_news_image_style/public/Pictures/web/x/k/i/lecturer_writing_on_blackboard.jpg?itok=qyufPnaR"
         img-height="192px"
@@ -33,6 +35,7 @@
         <b-button to="/lecturers" variant="secondary">List of lecturers</b-button>
       </b-card>
 
+      <!-- enrolments card -->
       <b-card
       img-src="https://www.heaton.school.nz/wp-content/uploads/2019/08/wordpress-postojN7MW-900x370.png"
       img-height="193px"
@@ -49,6 +52,7 @@
   </div>
 </div>
 </div>
+<!-- login form only appears if user is not logged in -->
     <b-form v-else @submit="onSubmit">
       <b-form-group
       id="input-group-1"
@@ -111,6 +115,7 @@ export default{
     }
   },
   methods: {
+    // login submit method
     onSubmit(evt){
       evt.preventDefault();
 

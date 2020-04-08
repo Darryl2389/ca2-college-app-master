@@ -7,7 +7,6 @@
         title="Edit Course"
         tag="article"
       >
-
         <b-form @submit="onSubmit">
           <b-form-group
             id="input-group-1"
@@ -90,6 +89,7 @@
 
 <script>
   export default {
+    // data passed into component
     data() {
       return {
         course: {},

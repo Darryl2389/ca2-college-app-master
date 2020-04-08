@@ -8,6 +8,7 @@
         tag="article"
       >
 
+<!-- start of form -->
         <b-form @submit="onSubmit">
           <b-form-group
             id="input-group-1"
@@ -64,6 +65,7 @@
 
           <b-button type="submit" variant="primary">Submit</b-button>
         </b-form>
+        <!-- end of form -->
       </b-card>
     </b-col>
   </b-row>
@@ -71,6 +73,7 @@
 
 <script>
 export default {
+  // data passed into component
   data() {
     return {
       lecturer: {
@@ -94,6 +97,7 @@ export default {
 
     let app = this;
     let token = localStorage.getItem('token');
+    // retrieving specific lecturer by ID to be edited
     axios.get(`/api/lecturers/${app.$route.params.id}`, {
       headers: { Authorization: "Bearer " + token }
     })
@@ -111,6 +115,7 @@ export default {
 
       let app = this;
       let token = localStorage.getItem('token');
+      // posting edited information to API
       axios.put(`/api/lecturers/${app.$route.params.id}`, {
           name: app.lecturer.name,
           phone: app.lecturer.phone,
